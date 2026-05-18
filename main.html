@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Embed Viewer</title>
+
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/pannellum/build/pannellum.css"/>
+
+  <script src="https://cdn.jsdelivr.net/npm/pannellum/build/pannellum.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+
+    #panorama {
+      width: 100%;
+      height: 100vh;
+    }
+
+    #welcomePopup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  max-width: 700px;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 25px;
+  border-radius: 15px;
+  z-index: 9999;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+#welcomePopup h2 {
+  margin-top: 0;
+}
+
+#popupWarning {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #ffcccb;
+}
+
+#closePopup {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#popupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(61, 61, 61, 0.5);
+  z-index: 9998;
+}
+  </style>
+</head>
+
+<body>
+
+<div id="panorama"></div>
+
+<div id="popupOverlay"></div>
+
+<div id="welcomePopup">
+  <h2>Welcome to the ISB Virtual Tour</h2>
+
+  <p>
+    Welcome to the ISB virtual tour, this is the reception area,
+    hover over buttons like this one to view information about your
+    surroundings, click on the arrows to move to a different location.
+    You can also click and drag to look around, or use the arrow keys
+    on your keyboard.
+  </p>
+
+  <div id="popupWarning">
+    Travel time may differ from reality, and some rooms may not be available for viewing.
+  </div>
+
+  <button id="closePopup">Start Tour</button>
+</div>
+
+<script>
+pannellum.viewer('panorama', {
+
+  default: {
+    firstScene: "Reception",
+    autoLoad: true,
+    sceneFadeDuration: 1000
+  },
+
+  scenes: {
+
+    roomL2: {
+      type: "equirectangular",
+      panorama:
+        "https://raw.githubusercontent.com/rktx5ncd7p-coder/images/main/IMG_20260508_092736_867.JPG",
+      horizonPitch: -10,
+      yaw: -90,
+      autoRotate: -2,
+
+      hotSpots: [
+  {
+    pitch: -3,
+    yaw: -70,
+    type: "scene",
+    text: "Go to Corridor",
+    sceneId: "corridorL"
+  },
+
+  {
+    pitch: -3,
+    yaw: 180,
+    type: "info",
+    text: "This is Room L2"
+  }
+]      
+    },
+
+    roomL1: {
+      type: "equirectangular",
+      panorama:
+        "https://raw.githubusercontent.com/rktx5ncd7p-coder/images/main/Room%20L1.jpg",
+      horizonPitch: -10,
+      yaw: 90,
+      autoRotate: -2,
+
+      hotSpots: [
+  {
+    pitch: -3,
+    yaw: 40,
+    type: "scene",
+    text: "Go to Corridor",
+    sceneId: "corridorL"
+  },
+
+  {
+    pitch: -3,
+    yaw: 160,
+    type: "info",
+    text: "This is Room L1"
+  }
+]      
+    },
+
+
+    corridorL: {
+      type: "equirectangular",
+      yaw: -180,
+      horizonPitch: -10,
+
+      panorama:
+        "https://raw.githubusercontent.com/rktx5ncd7p-coder/images/main/L%20Corridor.jpg",
+
+      hotSpots: [
+  {
+    pitch: -2,
+    yaw: -165,
+    type: "scene",
+    text: "Go to Room L2",
+    sceneId: "roomL2"
+  },
+
+  {
+    pitch: -2,
+    yaw: 160,
+    type: "scene",
+    text: "Go to Room L1",
+    sceneId: "roomL1"
+  },
+
+  {
+    pitch: 5,
+    yaw: 180,
+    type: "scene",
+    text: "Go to Reception",
+    sceneId: "Reception"
+  }
+]
+    },
+
+    Reception: {
+      type: "equirectangular",
+      yaw: 90,
+      horizonPitch: -10,
+      autoRotate: -2,
+
+      panorama:
+        "https://raw.githubusercontent.com/rktx5ncd7p-coder/images/main/Reception.png",
+
+      hotSpots: [
+  {
+    pitch: -2,
+    yaw: -150,
+    type: "scene",
+    text: "Go to Room L1 & L2",
+    sceneId: "corridorL"
+  },
+
+  {
+    pitch: -2,
+    yaw: 160,
+    type: "scene",
+    text: "Go to Secondary corridor",
+    sceneId: "SecCorridor1"
+  },
+
+  {
+    pitch: 3,
+    yaw: 160,
+    type: "info",
+    text: "Skips elementary school and goes straight to secondary corridor, for now. Travel to the corridor is about 3 minute walk"
+  },
+
+  {
+    pitch: -2,
+    yaw: -10,
+    type: "scene",
+    text: "Go to Entrance & Science Corridor",
+    sceneId: "Entrance"
+  }
+]
+    },
+
+    Entrance: {
+      type: "equirectangular",
+      yaw: 90,
+      horizonPitch: -10,
+
+      panorama:
+        "https://raw.githubusercontent.com/rktx5ncd7p-coder/images/main/Entrance.jpg",
+
+      hotSpots: [
+  {
+    pitch: -2,
+    yaw: 90,
+    type: "scene",
+    text: "Go to Science Corridor",
+    sceneId: "corridorScience1"
+  },
+
+
+  {
+    pitch: 5,
+    yaw: -3,
+    type: "scene",
+    text: "Go to Reception",
+    sceneId: "Reception"
+  }
+]
+    },
+
+        corridorScience1: {
+      type: "equirectangular",
+      yaw: -180,
+      horizonPitch: -10,
+
+      panorama:
+        "https://raw.githubusercontent.com/rktx5ncd7p-coder/images/main/Science%20corridor%201.jpg",
+
+      hotSpots: [
+  {
+    pitch: -2,
+    yaw: -165,
+    type: "info",
+    text: "Head of school office, Not Avalible for now",
+  },
+
+  {
+    pitch: -2,
+    yaw: -5,
+    type: "scene",
+    text: "Go to Entrance",
+    sceneId: "Entrance"
+  },
+
+    {
+    pitch: 0,
+    yaw: 167,
+    type: "scene",
+    text: "Go to Lab 1",
+    sceneId: "Lab11"
+  },
+
+  {
+    pitch: 2,
+    yaw: 175,
+    type: "scene",
+    text: "Advance in Science Corridor",
+    sceneId: "corridorScience2"
+  },
+
+{
+    pitch: -2,
+    yaw: -15,
+    type: "scene",
+    text: "Go to room 201",
+    sceneId: "Room201"
+  },
+]
+    },
+
+        corridorScience2: {
+      type: "equirectangular",
+      yaw: -180,
+      horizonPitch: -10,
+
+      panorama:
+        "https://raw.githubusercontent.com/rktx5ncd7p-coder/images/main/Science%20Corridor%202.jpg",
+
+      hotSpots: [
+  {
+    pitch: -2,
+    yaw: -165,
+    type: "info",
+    text: "Room used for elementary, Not Avalible for now",
+  },
+
+  {
+    pitch: -2,
+    yaw: -203,
+    type: "info",
+    text: "Counselors Office"
+  },
+
+  {
+    pitch: 2,
+    yaw: -5,
+    type: "scene",
+    text: "Return in Science Corridor",
+    sceneId: "corridorScience1"
+  },
+
+  {
+    pitch: -2,
+    yaw: -195,
+    type: "scene",
+    text: "Go to room 206",
+    sceneId: "Room206"
+  },
+
+ {
+    pitch: -2,
+    yaw: 15,
+    type: "info",
+    text: "Go to Lab 2, No image available for now",
+  },
+
+{
+    pitch: -2,
+    yaw: -30,
+    type: "scene",
+    text: "Go to room 205",
+    sceneId: "Room205"
+  }
+]
+    },
+
+    Lab11: {
+      type: "equirectangular",
+      panorama:
+        "https://raw.githubusercontent.com/rktx5ncd7p-coder/images/main/Lab11.jpg",
+      horizonPitch: -10,
+      yaw: 180,
+      autoRotate: -2,
+
+      hotSpots: [
+  {
+    pitch: -3,
+    yaw: 212,
+    type: "scene",
+    text: "Go to Corridor",
+    sceneId: "corridorScience1"
+  },
+
+  {
+    pitch: -3,
+    yaw: 160,
+    type: "info",
+    text: "This is Lab 1"
+  }
+]      
+    },
+
+    Room201: {
+      type: "equirectangular",
+      panorama:
+        "https://raw.githubusercontent.com/rktx5ncd7p-coder/images/main/Room201.jpg",
+      horizonPitch: -10,
+      yaw: -45,
+      autoRotate: -2,
+
+      hotSpots: [
+  {
+    pitch: -3,
+    yaw: -35,
+    type: "scene",
+    text: "Go to Corridor",
+    sceneId: "corridorScience1"
+  },
+
+  {
+    pitch: -3,
+    yaw: 232,
+    type: "info",
+    text: "This is Room 201"
+  }
+]      
+    },
+
+    Room205: {
+      type: "equirectangular",
+      panorama:
+        "https://raw.githubusercontent.com/rktx5ncd7p-coder/images/main/Room205.jpg",
+      horizonPitch: -10,
+      yaw: 90,
+      autoRotate: -2,
+
+      hotSpots: [
+  {
+    pitch: -3,
+    yaw: 170,
+    type: "scene",
+    text: "Go to Corridor",
+    sceneId: "corridorScience2"
+  },
+
+  {
+    pitch: -3,
+    yaw: 90,
+    type: "info",
+    text: "This is Room 205"
+  }
+]      
+    },
+
+Room206: {
+      type: "equirectangular",
+      panorama:
+        "https://raw.githubusercontent.com/rktx5ncd7p-coder/images/main/Room206.jpg",
+      horizonPitch: -10,
+      yaw: 90,
+      autoRotate: -2,
+
+      hotSpots: [
+
+
+  {
+    pitch: -3,
+    yaw: 105,
+    type: "scene",
+    text: "Go to Corridor",
+    sceneId: "corridorScience2"
+  },
+
+  {
+    pitch: -3,
+    yaw: 90,
+    type: "info",
+    text: "This is Room 206"
+  }
+]      },
+
+    SecCorridor1: {
+      type: "equirectangular",
+      yaw: 0,
+      horizonPitch: -10,
+
+      panorama:
+        "https://raw.githubusercontent.com/rktx5ncd7p-coder/images/main/SecCorridor1.jpg",
+
+      hotSpots: [
+  {
+    pitch: -2,
+    yaw: -70,
+    type: "scene",
+    text: "Advance in Secondary Corridor",
+    sceneId: "SecCorridor2"
+  },
+
+  {
+    pitch: -2,
+    yaw: 180,
+    type: "info",
+    text: "Go to room C"
+  },
+
+
+  {
+    pitch: -2,
+    yaw: 100,
+    type: "scene",
+    text: "Go to Reception",
+    sceneId: "Reception"
+  }
+]
+    },
+
+    SecCorridor2: {
+      type: "equirectangular",
+      yaw: 0,
+      horizonPitch: -10,
+
+      panorama:
+        "https://raw.githubusercontent.com/rktx5ncd7p-coder/images/main/SecCorridor2.jpg",
+
+      hotSpots: [
+  {
+    pitch: -2,
+    yaw: -70,
+    type: "info",
+    text: "Go to room D",
+  },
+
+  {
+    pitch: 2,
+    yaw: 187,
+    type: "info",
+    text: "Go to room C",
+  },
+
+  {
+    pitch: 2,
+    yaw: 200,
+    type: "info",
+    text: "Staff Room",
+  },
+
+  {
+    pitch: -2,
+    yaw: 0,
+    type: "scene",
+    text: "Advance in Secondary Corridor",
+    sceneId: "SecCorridor3"
+  },
+
+  {
+    pitch: -2,
+    yaw: 180,
+    type: "scene",
+    text: "Return in Secondary Corridor",
+    sceneId: "SecCorridor1"
+  }
+]
+    },
+
+    SecCorridor3: {
+      type: "equirectangular",
+      yaw: 0,
+      horizonPitch: -10,
+
+      panorama:
+        "https://raw.githubusercontent.com/rktx5ncd7p-coder/images/main/SecCorridor3.jpg",
+
+      hotSpots: [
+  {
+    pitch: -2,
+    yaw: -15,
+    type: "info",
+    text: "Go to room F",
+  },
+
+  {
+    pitch: 3,
+    yaw: 20,
+    type: "info",
+    text: "Travel to the reception from here is about a 3 minute walk, up stairs and through the entrance.",
+  },
+
+  {
+    pitch: -2,
+    yaw: 20,
+    type: "scene",
+    text: "Go to Reception",
+    sceneId: "Reception",
+  },
+
+  {
+    pitch: -2,
+    yaw: 5,
+    type: "info",
+    text: "Go to room G",
+  },
+
+  {
+    pitch: 2,
+    yaw: 220,
+    type: "info",
+    text: "Go to room E",
+  },
+
+  {
+    pitch: 1,
+    yaw: 195,
+    type: "scene",
+    text: "Return in Secondary Corridor",
+    sceneId: "SecCorridor2"
+  }
+]
+    }
+
+  }
+});
+
+document.getElementById("closePopup").addEventListener("click", function () {
+  document.getElementById("welcomePopup").style.display = "none";
+  document.getElementById("popupOverlay").style.display = "none";
+});
+
+</script>
+</body>
+</html>
